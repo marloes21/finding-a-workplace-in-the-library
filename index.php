@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"> 
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>📚 Can I work in the university library?</title>
@@ -74,7 +74,7 @@
 </head>
 
 <body>
-
+<!-- Create the header of the layout -->
 <section class="jumbotron jumbotron-fluid text-center bg-dark text-white" style="padding: 30px 0 20px 0 !important;">
     <div class="container">
 
@@ -109,7 +109,9 @@
         <form method="get">
             <div class="row justify-content-center">
                 <div class="col-sm-4 col-md-3 col-xl-2 mb-2">
-                    <input type="date" id="picker" class="form-control" name="datePicker" max="<?= date('Y-m-d') ?>">
+                    <input type="date" id="picker" class="form-control" name="datePicker"
+                           max="<?= date('Y-m-d') ?>" min="2019-04-29"
+                           value="<?= isset($_GET['datePicker']) ? $_GET['datePicker'] : date('Y-m-d') ?>">
                 </div>
                 <div class="col-sm-4 col-md-4 col-xl-2 mb-2">
                     <button type="submit" class="btn btn-primary btn-block">Tell me about it!</button>
@@ -125,7 +127,7 @@
 
 <div class="container-fluid">
 
-
+<!--    Create the estimate number of workplace visualisation -->
     <div class="row mb-4 row-eq-height">
 
         <div class="col-12">
@@ -134,7 +136,8 @@
                 <div class="card-body text-center text-white" style="padding: 0;">
 
                     <h5 class="font-weight-bold mt-4">
-                        Estimated number of workplaces available:
+                        Estimated number of workplaces available<span id="display-area-name" style="display: none;"> in area <span
+                                    id="area-name">0</span></span>:
                     </h5>
 
                     <h1>
@@ -152,7 +155,7 @@
     </div>
 
     <div class="row">
-
+        <!--    Create the map visualisation for the main floor-->
         <div class="col-xl-3 col-md-6 col-sm-12 mb-3">
 
             <div class="card">
@@ -169,6 +172,7 @@
             </div>
         </div>
 
+        <!--    Create the map visualisation for the lower floor-->
         <div class="col-xl-3 col-md-6 col-sm-12 mb-3">
 
             <div class="card">
@@ -186,12 +190,13 @@
 
         </div>
 
+        <!--    Create the line graph visualisation-->
         <div class="col-xl-6 col-md-12 col-sm-12 mb-3">
 
             <div class="card">
                 <div class="card-header bg-dark text-white">
                     <i class="fas fa-fw fa-chart-line mr-2"></i>
-                    Line graph
+                    Workplace availability throughout the day
                 </div>
                 <div class="card-body" id="line-chart"></div>
             </div>
@@ -202,6 +207,7 @@
 
 </div>
 
+<!--    Create the overlay when the visualisation are loading -->
 <div class="loading_overlay bg-dark text-white">
 
     <h1 class="mt-5 text-center"><i class="fas fa-spinner fa-spin"></i></h1>
@@ -210,26 +216,31 @@
 
 <script type="text/javascript">
 
+    //Some javascript to make sure all the visualisation are called
+    // To be able to have the two differnt floors of the library
     let floor1;
     let floor2;
 
     let graphReady = false;
     let countReady = false;
 
+    //So that it is possible to check if highlighted line ahs the same id as an area
     function apStringToInt(string) {
         return parseInt(string.replace("Area", ""));
     }
 
+    //show the visualizations when they are ready to be shwon
     let removeOverlay = function () {
         if (graphReady && countReady) {
             $(".loading_overlay").fadeOut();
         }
     };
 
+
     $(document).ready(function () {
+        //create two instances of the map visualisations
         floor1 = new p5(plattegrondForFloor(1), 'floor-1');
         floor2 = new p5(plattegrondForFloor(2), 'floor-2');
-
 
         $('[data-toggle="tooltip"]').tooltip()
     });

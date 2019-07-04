@@ -52,13 +52,6 @@ let plattegrondForFloor = function (floor) {
                 p.clearHighlight();
                 p.clearHighlightLineChart();
                 updateCounterForArea(0);
-
-                // if (p.mouseInPologyon() == 0){
-                //     console.log("in het if statmeent");
-                //    p.clearHighlightLineChart();
-                // }
-
-                // p.updateChart(true);
             }
 
         };
@@ -102,47 +95,17 @@ let plattegrondForFloor = function (floor) {
                 }
             }
         }
-        // p.mousePressed = function () {
-        //     if (doubleClick == 0 && p.mouseInPologyon()) {
-        //         polygonID = p.mouseInPologyon();
-        //         p.highlightArea(polygonID);
+
+        // p.updateChart = function (allowed) {
         //
-        //         if (this.floor == 1) {
-        //             floor2.highlightArea(0);
-        //         } else {
-        //             floor1.highlightArea(0);
+        //     chart.update({
+        //         plotOptions: {
+        //             series: {
+        //                 enableMouseTracking: allowed
+        //             }
         //         }
-        //         doubleClick++;
-        //
-        //     } else if (doubleClick == 1 && p.mouseInPologyon() == polygonID) {
-        //
-        //         // lineGraph(false, estimated_for_chart);
-        //         p.updateChart(true);
-        //         p.clearHighlight();
-        //
-        //
-        //         if (this.floor == 1) {
-        //             floor2.clearHighlight();
-        //         } else {
-        //             floor1.clearHighlight();
-        //         }
-        //
-        //         polygonID = 0;
-        //         doubleClick = 0;
-        //     }
-        //
+        //     });
         // }
-
-        p.updateChart = function (allowed) {
-
-            chart.update({
-                plotOptions: {
-                    series: {
-                        enableMouseTracking: allowed
-                    }
-                }
-            });
-        }
 
         p.mouseInPologyon = function () {
             for (let i = 0; i < p.accessPoints.length; i++) {

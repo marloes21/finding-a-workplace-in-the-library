@@ -11,7 +11,9 @@ if ($conn->connect_error) {
 //$measDate = isset($_GET['date']) ? $_GET['date'].':%' : date('Y-m-d').':%';
 $measDate = isset($_GET['date']) ? $_GET['date'].' %' : date('Y-m-d').' %';
 $measurement_array = array();
-$measurements ="SELECT meas.ID, meas.AP_ID, meas.Date, meas.estimated_people FROM measurements meas 
+$measurements ="SELECT meas.ID, meas.AP_ID, meas.Date, meas.estimated_people, ap.numberOfChairs FROM measurements meas
+LEFT JOIN access_points ap
+ON meas.AP_ID = ap.ID 
 ORDER BY `meas`.`Date` DESC LIMIT 17 ";
 
 $result = $conn->query($measurements);
@@ -22,6 +24,7 @@ while($row = $result->fetch_assoc()) {
     $meas_data->AP_ID = json_decode($row['AP_ID']);
     $meas_data->Date = $row['Date'];
     $meas_data->estimated_people = $row['estimated_people'];
+    $meas_data->number_of_chairs = $row['numberOfChairs'];
     $measurement_array[] = $meas_data;
 }
 

@@ -14,20 +14,6 @@ class Vizualisatie {
         this.calculateOverlayColor(this.measurements, this.accessPoints);
     }
 
-
-    // getMeasurementForOneHour(measurements) {
-    //   let meas17MeiHour = [];
-    //   let j = 0;
-    //   for (let i = 0; i<measurements.length; i++) {
-    //     if (measurements[i].isFromDayAndHour(2019, 5, 17, 13)) {
-    //       meas17MeiHour[j]=(measurements[i]);
-    //       j++;
-    //     }
-    //   }
-    //   return meas17MeiHour;
-    // }
-
-
     calculateOverlayColor(measurements, ap) {
         let averageEstimatedPeoplePerAP = this.cal.calculateAverage(this.cal.getFloor(ap, this.floor), measurements); // this.getMeasurementForOneHour(measurements));
         for (let i = 0; i < ap.length; i++) {
