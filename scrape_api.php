@@ -1,21 +1,21 @@
 <?php
 //json_mysql.php
-$servername = 'localhost';
-$username = 'caniworkinthelibrary_nl_afstuderen';
-$password = 'po3aPwhGYuhk';
-$database = 'caniworkinthelibrary_nl_afstuderen';
 
+//get the data from the LISA DATA API
 $url_wifi = 'http://iotdata01.utwente.nl/cgi-bin/aps-geojson.cgi';
 $json_wifi = json_decode(file_get_contents($url_wifi), true);
 
 
 $date = date('Y-m-d H:i:s', time());
 
-$conn = new mysqli($servername, $username, $password, $database);
+//connect to the dtabase
+$conn = new mysqli($db_config->servername, $db_config->username, $db_config->password, $db_config->database);
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+
+//get needed data from the database
 $ap_array = array();
 $access_points = "SELECT ap.ID, ap.Name from access_points ap";
 $result = $conn->query($access_points);
@@ -24,6 +24,7 @@ while($row = $result->fetch_assoc()) {
 }
 
 for ($i = 0; $i <= 850; $i++) {
+    //add the data for the correct access points to the database
     $estimated_people = $json_wifi['features'][$i]['properties']['estimated_people'];
     $AP_name = $json_wifi['features'][$i]['properties']['name'];
     if (!array_key_exists($AP_name, $ap_array)) {

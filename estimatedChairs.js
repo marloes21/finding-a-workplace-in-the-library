@@ -6,6 +6,7 @@ let freeChairsPerAp = [];
 let seatCounter;
 let currentAreaForCounter = 0;
 
+
 let startSeatCounter = function () {
     seatCounter = new CountUp('available-seats', 0, {
         duration: 2
@@ -20,6 +21,7 @@ let updateFunction = function () {
     totalNumberStudent = 0;
     totalNumberOfChairs = 0;
 
+    //get the measurements and add all this to the an array to count how many empty chairs there are
     $.getJSON(urlMeas, function (data) {
         for (let i in data) {
             totalNumberStudent += parseInt(data[i].estimated_people);
@@ -29,6 +31,7 @@ let updateFunction = function () {
         updateCounter();
     });
 
+    //get the total number of chairs availble.
     $.getJSON(urlAP, function (data) {
         for (let i in data) {
             //  console.log(data[i].NumberOfChairs);
@@ -38,6 +41,7 @@ let updateFunction = function () {
     });
 };
 
+//Update the counter to the correct number of chairs. Only when there is data is loaded.
 updateCounter = function () {
     if (totalNumberOfChairs != 0 && totalNumberStudent != 0) {
         let numberFreeChairs = totalNumberOfChairs - totalNumberStudent;

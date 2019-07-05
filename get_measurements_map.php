@@ -1,20 +1,22 @@
 <?php
 include 'config.php';
 header("Access-Control-Allow-Origin: *");
+
+//connect to the database
 $conn = new mysqli($db_config->servername, $db_config->username, $db_config->password, $db_config->database);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 $measDate = isset($_GET['date']) ? $_GET['date'].' '.date('H').':%' : date('Y-m-d H').':%';
 
-//$measDate = isset($_GET['date']) ? $_GET['date'].':%' : date('Y-m-d').':%';
-//$measDate = isset($_GET['date']) ? $_GET['date'].' %' : date('Y-m-d').' %';
 $measurement_array = array();
+//get the correct data from the database
 $measurements ="SELECT meas.ID, meas.AP_ID, meas.Date, meas.estimated_people FROM measurements meas 
 WHERE meas.Date like '$measDate' ORDER BY meas.Date ASC";
 
 $result = $conn->query($measurements);
-//var_dump($result);
+
+//create json object so that map visualizer can use the data
 while($row = $result->fetch_assoc()) {
     $meas_data = new class{};
     $meas_data->ID = $row['ID'];

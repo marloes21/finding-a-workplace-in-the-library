@@ -4,6 +4,7 @@ class Calculations {
         this.yScalingFactor = yScalingFactor;
     }
 
+    //create an array with all the access points that belong to one floor
     getFloor(ap, floor) {
         let floor2AP = [];
         let j = 0;
@@ -16,6 +17,7 @@ class Calculations {
         return floor2AP;
     }
 
+    //calcualte the average amount people in that hour
     calculateAverage(apIDOn2ndFloor, measurementsForOneHour) {
         let apAndEstPeople = [];
         let averageEstimatedPeoplePerAP = [];
@@ -39,6 +41,7 @@ class Calculations {
         return averageEstimatedPeoplePerAP;
     }
 
+    //calcualte the color that the area needs to be.
     calculateFill(presentages, alpha) {
         let colors = [];
         if (presentages < 45) {
@@ -58,6 +61,7 @@ class Calculations {
         return colors;  //`rgba(${red}, ${green}, ${blue}, ${alpha})`;
     }
 
+    //calculate wheter the mouse is in area.
     mouseInPointCheck(posX, posY, ap) {
         let i;
         let j;
@@ -71,7 +75,7 @@ class Calculations {
             let yVertI = vertices[i][1];
             let yVertJ = vertices[j][1];
 
-
+            //gotten from https://forum.processing.org/one/topic/how-do-i-find-if-a-point-is-inside-a-complex-polygon.html
             if (((((yVertI) <= posY) && (posY < (yVertJ))) || (((yVertJ) <= posY) && (posY < (yVertI)))) &&
                 (posX < ((xVertJ) - (xVertI)) * (posY - (yVertI)) / ((yVertJ) - (yVertI)) + (xVertI))) {
                 result = !result;

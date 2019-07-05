@@ -1,23 +1,26 @@
 <?php
 include 'config.php';
 header("Access-Control-Allow-Origin: *");
+//connect to the database
 $conn = new mysqli($db_config->servername, $db_config->username, $db_config->password, $db_config->database);
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-//$measDate = isset($_GET['date']) ? $_GET['date'].':%' : date('Y-m-d').':%';
 
-//$measDate = isset($_GET['date']) ? $_GET['date'].':%' : date('Y-m-d').':%';
 $measDate = isset($_GET['date']) ? $_GET['date'].' %' : date('Y-m-d').' %';
 $measurement_array = array();
+
+//get the correct data from the database
+
 $measurements ="SELECT meas.ID, meas.AP_ID, meas.Date, meas.estimated_people, ap.numberOfChairs FROM measurements meas
 LEFT JOIN access_points ap
 ON meas.AP_ID = ap.ID 
 ORDER BY `meas`.`Date` DESC LIMIT 17 ";
 
 $result = $conn->query($measurements);
-//var_dump($result);
+
+//create json object so that chair visualizer can use the data
 while($row = $result->fetch_assoc()) {
     $meas_data = new class{};
     $meas_data->ID = $row['ID'];

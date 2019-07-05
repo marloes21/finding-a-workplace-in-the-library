@@ -1,6 +1,6 @@
 class Vizualisatie {
-
-    constructor(accessPoints, measurements, p, scalingFactorX, scalingFactorY, cal, floor, offsetFactor) {
+    //Draw the overlay of the map visualisation
+    constructor(accessPoints, measurements, p, scalingFactorX, scalingFactorY, cal, floor) {
         this.accessPoints = accessPoints;
         this.measurements = measurements;
         this.p = p;
@@ -8,12 +8,11 @@ class Vizualisatie {
         this.scalingFactory = scalingFactorY;
         this.cal = cal;
         this.floor = floor;
-        this.offsetFactor = offsetFactor;
 
-        // cal.calculateAverage(cal.getFloor(this.accessPoints), this.measurements); //this.getMeasurementForOneHour(this.measurements));
         this.calculateOverlayColor(this.measurements, this.accessPoints);
     }
 
+    //loop through all the averages and than add the the correct color the to the data
     calculateOverlayColor(measurements, ap) {
         let averageEstimatedPeoplePerAP = this.cal.calculateAverage(this.cal.getFloor(ap, this.floor), measurements); // this.getMeasurementForOneHour(measurements));
         for (let i = 0; i < ap.length; i++) {
@@ -28,9 +27,10 @@ class Vizualisatie {
         }
     }
 
+    //draw the overlay of the image with each area the correct color
     drawOverlay(ap, alpha) {
-        let colorsISKUT = ap.getAverageColors();
-        this.p.fill(colorsISKUT[0], colorsISKUT[1], colorsISKUT[2], alpha);
+        let colors = ap.getAverageColors();
+        this.p.fill(colors[0], colors[1], colors[2], alpha);
         this.p.strokeWeight(0);
         this.p.beginShape();
 
@@ -42,6 +42,7 @@ class Vizualisatie {
 
     }
 
+    //when an area is clicked increase the opacity of the color of the clicked area and decrease the opacity of the other areas
     drawAreasClicked(pologyonID, accessPoints) {
         for (let i = 0; i < accessPoints.length; i++) {
             if (accessPoints[i].floor == this.floor) {
